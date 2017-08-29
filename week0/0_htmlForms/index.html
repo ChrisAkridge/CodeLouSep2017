@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Sign Up Form</title>
+        <link rel="stylesheet" href="css/normalize.css">
+        <link href='http://fonts.googleapis.com/css?family=Nunito:400,300' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="css/main.css">
+    </head>
+    <body>
+		<form action="index.html" method="post">
+			<h1>Sign Up</h1>
+			
+			<fieldset>
+				<legend><span class="number">1</span> Your basic info</legend>
+				
+				<label for="name">Name:</label>
+				<input type="text" id="name" name="user_name">
+				
+				<label for="mail">E-Mail:</label>
+				<input type="email" id="mail" name="user_email">
+				
+				<label for="password">Password: </password>
+				<input type="password" id="password" name="user_password">
+				
+				<label>Age:</label>
+				<input type="radio" id="under_13" value="under_13" name="user_age">
+					<label for="under_13" class="light">Under 13</label>
+				</input>
+				<br>
+				<input type="radio" id="over_13" value="over_13" name="user_age">
+					<label for="over_13" class="light">13 or Older</label>
+				</input>
+			</fieldset>
+			
+			<fieldset>
+				<legend><span class="number">2</span> Your profile</legend>
+			
+				<label for="bio">Biography: </label>
+				<textarea id="bio" name="user_bio"></textarea>
+				
+				<label for="job">Job role:</label>
+				<select id="job" name="user_job">
+					<optgroup label="Web">
+						<option value="frontend_developer">Front-end Developer</option>
+						<option value="php_developer">PHP Developer</option>
+						<option value="python_developer">Python Developer</option>
+						<option value="rails_developer">Rails Developer</option>
+						<option value="web_designer">Web Designer</option>
+						<option value="wordpress_developer">WordPress Developer</option>
+					</optgroup>
+					
+					<optgroup label="Microsoft">
+						<option value="csharp_developer">C# Developer</option>
+						<option value="aspnet_developer">ASP.NET Developer</option>
+					</optgroup>
+					
+					<optgroup label="Maintenance">
+						<option value="cobol_developer">COBOL Developer</option>
+					</optgroup>
+				</select>
+			</fieldset>
+			
+			<button type="submit">Sign Up</button>
+		</form>
+    </body>
+</html>
