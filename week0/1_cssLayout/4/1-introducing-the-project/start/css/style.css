@@ -1,0 +1,160 @@
+/* ================================= 
+  Base Element Styles
+==================================== */
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	font-family: 'Varela Round', sans-serif;
+	line-height: 1.6;
+	color: #3a3a3a;
+}
+
+p {
+	font-size: .95em;
+	margin-bottom: 1.8em;
+}
+
+h2,
+h3,
+a {
+	color: #093a58;
+}
+
+h2,
+h3 {
+	margin-top: 0;
+}
+
+a {
+	text-decoration: none;
+}
+
+img {
+	max-width: 100%;
+}
+
+/* ================================= 
+  Base Layout Styles
+==================================== */
+
+/* ---- Navigation ---- */
+
+.name {
+	font-size: 1.25em;
+}
+
+.name a,
+.main-nav a {
+	text-align: center;
+}
+
+.main-nav a {
+	font-size: .95em;
+	color: #3acec2;
+	text-transform: uppercase;
+}
+
+.main-nav a:hover {
+	color: #093a58;
+}
+
+/* ---- Layout Containers ---- */
+
+.banner {
+	color: #fff;
+	background: #3acec2;
+	text-align: center;
+}
+
+.main-footer {
+	background: #d9e4ea;
+	padding: 2em 0;
+	margin-top: 30px;
+	text-align: center;
+}
+
+.container {
+	max-width: 1400px;
+	margin: 0 auto;
+}
+
+/* ---- Page Elements ---- */
+
+.logo {
+	width: 190px;
+}
+
+/* ================================= 
+  Media Queries
+==================================== */
+
+@media (min-width: 769px) {
+	.name {
+		float: left;
+	}
+
+	.main-nav {
+		float: right;
+	}
+	
+	.main-nav li {
+		display: block;
+		float: left;
+		padding-left: 20px;
+		padding-right: 20px;
+		margin-top: 1em;
+	}
+	
+	.col {
+	}
+	
+	.primary {
+		width: 45%;
+		float: right;
+	}
+	
+	.secondary {
+		width: 45%;
+		float: left;
+	}
+	
+	.tertiary {
+		float: none;
+		display: block;
+		clear: both;
+	}
+
+	/* ---- Float clearfix ---- */
+
+	.clearfix::after {
+		content: " ";
+		display: table;
+		clear: both;
+	}
+
+}
+
+@media screen and (min-width: 1025px) {
+	.col {
+		display: inline-block;
+		padding-left: 1em;
+		padding-right: 1em;
+	}
+	
+	.primary {
+		width: 35%;
+	}
+	
+	.secondary {
+		float: left;
+		width: 32.5%;
+	}
+	
+	.tertiary {
+		float: right;
+		width: 32.5%;
+	}
+}
