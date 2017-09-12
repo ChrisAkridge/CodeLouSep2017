@@ -1,0 +1,72 @@
+- Attribute selectors:
+	- element[attribute]
+		Selects all elements with the specified attribute. No space can be between the element and the brackets.
+	- element[attribute="value"]
+		Selects all elements which have the specified attribute which is equal to the specified value.
+	- a[href^="http:"]
+		Selects all a elements whose href attributes begin with "http:".
+	- a[href$=".pdf"]
+		Selects all a elements whose href attributes end with ".pdf".
+	- a[href*="downloads"]
+		Selects all a elements whose href attributes contain "downloads".
+- Sibling selectors:
+	- li p (Descendant):
+		Selects all p elements which are descendants of li elements.
+	- li>p (Child):
+		Selects all p elements which are children (direct descendants) of li elements.
+	- p+p (Adjacent):
+		Selects all p elements which immediately follow another p element.
+	- div~p (General):
+		Selects all p elements which are siblings (have the same parent) of div elements.
+- Psuedo-selectors:
+	- li:first-child
+		Selects the first li element in a parent container.
+	- li:last-child
+		Selects the last li element in a parent container.
+	- span:only-child
+		Selects the span in a parent container if and only if it's the only child of that parent.
+	- :empty
+		Selects any element with no content or children.
+	- :focus
+		Selects any element that has received focus.
+	- :disabled
+		Selects any element with the disabled attribute or is otherwise disabled.
+	- input[type"checkbox"]:checked
+		Selects all checkboxes which are checked.
+	- :nth-child(even)
+		Selects all even children of an element.
+	- :nth-child(odd)
+		Selects all odd children of an element.
+	- :nth-child(3)
+		Selects the third child of an element. Starts at 1.
+	- :nth-child(n+1)
+		Selects every child of an element after the first.
+	- :nth-child(3n)
+		Selects every third child of an element.
+	- :nth-child(3n+1)
+		Selects every third child of an element after the first.
+	- :nth-child(-n+4)
+		Selects the fourth child of an element and all that come before.
+	- :nth-child(-3n+4)
+		Selects the fourth child of an element and every third child that comes before.
+	- div:nth-last-of-type(even)
+		Selects every even div child of an element. Works with all nth-child arguments.
+	- :root
+		Selects the top-level element.
+	- :target
+		Selects the element whose ID was navigated to by a link.
+	- #col-c:target
+		Selects the element with the ID "col-c" if it's been navigated to by a link.
+	- input:not([type="submit"])
+		Selects all input elements that do not have a type attribute with the "submit" value.
+	- .col:not(:first-child)
+		Selects all children of the .col class that aren't the first child.
+- Psuedo-elements
+	- ::first-line
+		Selects the first line of text in a paragraph or span.
+	- ::first-letter
+		Selects the first letter of text in a paragraph or span.
+	- ::before
+		Prepends a virtual element before an element. A content property is required.
+	- ::after
+		Appends a virtual element after an element. A content property is required.

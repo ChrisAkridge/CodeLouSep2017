@@ -1,0 +1,17 @@
+
+/* ================================= 
+  Flexbox
+==================================== */
+
+.container {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.item {
+	flex: 1;
+}
+
+.item-2 {
+	flex: 2;
+}
