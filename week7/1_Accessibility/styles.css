@@ -1,0 +1,114 @@
+/* ==== Basic Page Styles ==== */
+body {
+	margin: 0;
+	font-family: verdana, sans-serif;
+	font-size: 0.85em;
+	background-color: #eac657;
+}
+
+#wrapper {
+	width: 920px;
+	margin: 0 auto;
+}
+
+/* ==== Header ==== */
+#header {
+	float: left;
+	margin: 20px 0;
+	width: 100%;
+}
+
+h1 {
+	float: left;
+	margin: 0;
+	text-indent: -20000px;
+	width: 300px;
+	height: 66px;
+	background: url('https://static.garmin.com/appstore/img/icons/app-type/widgets.svg') top left no-repeat;
+}
+
+/* ==== Navigation ==== */
+#nav {
+	margin-top: 20px;
+	list-style: none;
+	float: right;
+}
+
+#nav li {
+	float: left;
+	margin-left: 20px;
+}
+
+a {
+	font-size: 1.4em;
+	font-weight: bold;
+	padding: 10px;
+	background: #444444;
+	color: #eac657;
+	text-decoration: none;
+	border-radius: 10px;
+}
+
+a:hover,
+a:focus {
+	color: #d2b14e;
+	background: #000000;
+}
+
+/* ==== Content ==== */
+img {
+	max-width: 100%;
+}
+
+#widget_pic {
+	float: left;
+	width: 30%;
+	margin-left: 5%;
+	height: 300px;
+}
+
+#content {
+	width: 65%;
+	float: left;
+}
+
+#about {
+	font-size: 1.3em;
+	margin: 20px 0;
+	float: left;
+}
+
+#about p {
+	background: #d2b14e;
+	padding: 20px;
+	font-style: italic;
+	font-size: 0.9em;
+}
+
+/* ==== Table ==== */
+#compare {
+	float: left;
+	font-weight: bold;
+}
+
+#product_table {
+	float: left;
+	width: 100%;
+	font-size: 1.2em;
+}
+
+#product_table thead {
+	background: #444444 top left;
+	color: #EEEEEE;
+	text-align: left;
+}
+
+#product_table th,
+#product_table td {
+	padding: 10px;
+}
+
+#product_table td {
+	background: #d2b14e;
+	color: #333333;
+}
