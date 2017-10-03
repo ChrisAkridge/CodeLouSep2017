@@ -1,0 +1,115 @@
+/* ==== Universal ==== */
+
+* {
+	font-family: Calibri, sans-serif;
+	box-sizing: border-box;
+}
+
+body {
+	padding: 0;
+	margin: 0;
+}
+
+/* ==== Header ==== */
+
+header {
+	text-align: center;
+	background-color: #f5f791;
+	padding: 15px 0;
+}
+
+h1 {
+	margin: 0;
+}
+
+/* ==== Game Info ==== */
+#main {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}
+
+#game-info {
+	display: flex;
+	background-color: #9cf791;
+	flex-direction: column;
+}
+
+#bank {
+	text-align: center;
+	font-size: 4rem;
+}
+
+#rate {
+	text-align: center;
+	font-size: 1.5rem;
+}
+
+/* ==== Progress Stars ==== */
+
+#stars {
+	display: none;
+	justify-content: space-around;
+	background-color: #f79191;
+}
+
+.star {
+	padding: 10px;
+	background-color: #f97c7c;
+	border-radius: 100%;
+}
+
+.star img {
+	display: block;
+	width: 50px;
+	height: 50px;
+}
+
+/* ==== Item Panel ==== */
+#buyable-container {
+	display: flex;
+	flex-direction: column;
+}
+
+#items {
+	display: flex;
+	flex-direction: column;
+}
+
+#item-header {
+	text-align: center;
+	padding: 10px 0;
+	margin: 0;
+	background-color: #91daf7;
+	font-size: 2rem;
+}
+
+#phase-1-items {
+	margin-top: 0;
+	background-color: #91daf7;
+}
+
+.item:first-child {
+	border-top: 1px solid black;
+}
+
+.item {
+	display: flex;
+	border-bottom: 1px solid black;
+	user-select: none;
+}
+
+.disabled-item-1 {
+	background-color: #76b1c9;
+}
+
+.owned {
+	text-align: center;
+	width: 50px;
+	font-size: 1.75rem;
+	padding: 6px 0;
+}
+
+.item-name {
+	font-weight: bold;
+}
