@@ -82,7 +82,7 @@ Upgrades are one-time purchases that improve some metric of the game (cost, inco
 	    * Cost: 1,250 units
 	    * Effect: SMART Boards are 25% cheaper
 	* Dedicated Speakers (SMART Board upgrade):
-		* Unlocked when the bank reaches 750 units
+		* Unlocked when the bank reaches 1750 units
 	    * Cost: 3,750 units
 	    * Effect: HDMI Cables have their rate doubled
 	* Grated Light Fixture (Lighting Deck upgrade):
@@ -90,11 +90,11 @@ Upgrades are one-time purchases that improve some metric of the game (cost, inco
 	    * Cost: 2,500 units
 	    * Effect: HDMI Cables are 25% cheaper
 	* Mentor's Assistance:
-		* Unlocked when the bank reaches 1,020 units
+		* Unlocked when the bank reaches 2,020 units
 	    * Cost: 5,100 units
 	    * Effect: All income is doubled
 	* Complete Classroom:
-		* Unlocked when the user has 20 HDMI Cables, 8 Whiteboard Walls, 1 SMART Board, and 10 Lighting Fixtures
+		* Unlocked when the user has 20 HDMI Cables, 8 Whiteboard Walls, 1 SMART Board, and 8 Lighting Fixtures
 	    * Cost: 15,000 units
 	    * Effect: All income is doubled
 		

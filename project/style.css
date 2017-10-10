@@ -76,6 +76,11 @@ h1 {
 	flex-direction: column;
 }
 
+#item-phases {
+	display: flex;
+	width: 100%;
+}
+
 #item-header {
 	text-align: center;
 	padding: 10px 0;
@@ -87,6 +92,11 @@ h1 {
 #phase-1-items {
 	margin-top: 0;
 	background-color: #91daf7;
+	width: 
+}
+
+#item-phases>div {
+	width: 100%;
 }
 
 .item:first-child {
@@ -95,6 +105,7 @@ h1 {
 
 .item {
 	display: flex;
+	flex-grow: 0;
 	border-bottom: 1px solid black;
 	user-select: none;
 }
