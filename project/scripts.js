@@ -9,13 +9,13 @@ function beautify(number, places = 3) {
 	// Numbers less than 1 billion
 	var numberText;
 	if (number < 1e9) {
-		numberText = number.toLocaleString('en-US', {maximumFractionDigits: places});
+		numberText = number.toLocaleString('en-US', {maximumFractionDigits: 0});
 	} else if (number < 1e42) {
 		var powerOf10 = Math.log10(number);
 		var powerOf1000 = Math.floor(powerOf10 / 3);
 		var numberNameIndex = (powerOf1000 - 3);
 		var mantissa = number / Math.pow(1000, powerOf1000);
-		
+
 		numberText = mantissa.toFixed(3) + " " + numberNames[numberNameIndex];
 	} else if (Number.isNaN(number)) {
 		numberText = "Not-a-Number :(";
@@ -170,6 +170,7 @@ items.push(finalProject);
 /* ==== Upgrades ==== */
 var touchpad = {
 	name: "Touchpad",
+	desc: "Your clicking power is doubled.",
 	phase: 1,
 	checkUnlock: function() {
 		// User has made 25 units from clicking
@@ -185,6 +186,7 @@ upgrades.push(touchpad);
 
 var woodenCubeMouse = {
 	name: "Wooden Cube Mouse",
+	desc: "Clicking gains +10% of your rate.",
 	phase: 1,
 	checkUnlock: function() {
 		// User has made 175 units from clicking
@@ -200,6 +202,7 @@ upgrades.push(woodenCubeMouse);
 
 var microsoftIntellimouse = {
 	name: "Microsoft IntelliMouse",
+	desc: "Clicking gains +20% of your rate.",
 	phase: 1,
 	checkUnlock: function() {
 		// User has made 500 units from clicking
@@ -215,6 +218,7 @@ upgrades.push(microsoftIntellimouse);
 
 var fourKVideoSupport = {
 	name: "4K Video Support",
+	desc: "HDMI Cables produce 20% more for each Whiteboard Wall you own. Whiteboard Walls produce 1% more for each HDMI cable you own.",
 	phase: 1,
 	checkUnlock: function() {
 		// Bank reaches 140
@@ -231,6 +235,7 @@ upgrades.push(fourKVideoSupport);
 
 var rainbowMarkers = {
 	name: "Rainbow Markers",
+	desc: "SMART Boards are 25% cheaper.",
 	phase: 1,
 	checkUnlock: function() {
 		// Bank reaches 750
@@ -245,6 +250,7 @@ upgrades.push(rainbowMarkers);
 
 var dedicatedSpeakers = {
 	name: "Dedicated Speakers",
+	desc: "HDMI Cables produce double the units.",
 	phase: 1,
 	checkUnlock: function() {
 		// Bank reaches 1750
@@ -259,6 +265,7 @@ upgrades.push(dedicatedSpeakers);
 
 var gratedLightFixture = {
 	name: "Grated Light Fixture",
+	desc: "HDMI Cables are 25% cheaper.",
 	phase: 1,
 	checkUnlock: function() {
 		// Bank reaches 1875
@@ -273,6 +280,7 @@ upgrades.push(gratedLightFixture);
 
 var mentorsAssistance = {
 	name: "Mentor's Assistance",
+	desc: "All income is doubled.",
 	phase: 1,
 	checkUnlock: function() {
 		// Bank reaches 2020
@@ -287,6 +295,7 @@ upgrades.push(mentorsAssistance);
 
 var completeClassroom = {
 	name: "Complete Classroom",
+	desc: "All income is doubled.",
 	phase: 1,
 	checkUnlock: function() {
 		// 20 HDMI Cables, 8 Whiteboard Walls, 1 SMART Board, 8 Lighting Fixtures
@@ -302,20 +311,20 @@ upgrades.push(completeClassroom);
 upgrades.sort(function(a, b) { return b - a; });
 
 // ==== Achievements ====
-achievements.push({name: "A Thought", unlocked: false});		// Earn 1 unit.
-achievements.push({name: "An Idea", unlocked: false});			// Earn 10 units.
-achievements.push({name: "Research", unlocked: false});			// Earn 100 units.
-achievements.push({name: "Team-building", unlocked: false});	// Earn 1,000 units.
-achievements.push({name: "Office Purchase", unlocked: false});	// Earn 10,000 units.
-achievements.push({name: "Earn It", unlocked: false});			// Click for 1 unit.
-achievements.push({name: ".click()", unlocked: false});			// Click for 10 units.
-achievements.push({name: "Mouse-Up", unlocked: false});			// Click for 100 units.
-achievements.push({name: "Callbacks", unlocked: false});		// Click for 1,000 units.
-achievements.push({name: "Penny Stocks", unlocked: false});		// Reach a rate of 0.1 units/second.
-achievements.push({name: "Low-Yield Bonds", unlocked: false});	// Reach a rate of 1 unit/second.
-achievements.push({name: "Inflow", unlocked: false});			// Reach a rate of 10 units/second.
-achievements.push({name: "Income", unlocked: false});			// Reach a rate of 100 units/second.
-achievements.push({name: "Interest", unlocked: false});			// Reach a rate of 1,000 units/second.
+achievements.push({name: "A Thought", desc: "Earn 1 unit.", unlocked: false});
+achievements.push({name: "An Idea", desc: "Earn 10 units.", unlocked: false});
+achievements.push({name: "Research", desc: "Earn 100 units.", unlocked: false});
+achievements.push({name: "Team-building", desc: "Earn 1,000 units.", unlocked: false});
+achievements.push({name: "Office Purchase", desc: "Earn 10,000 units.", unlocked: false});
+achievements.push({name: "Earn It", desc: "Click for 1 unit.", unlocked: false});
+achievements.push({name: ".click()", desc: "Click for 10 units.", unlocked: false});
+achievements.push({name: "Mouse-Up", desc: "Click for 100 units.", unlocked: false});
+achievements.push({name: "Callbacks", desc: "Click for 1,000 units.", unlocked: false});
+achievements.push({name: "Penny Stocks", desc: "Reach a rate of 0.1 units/second.", unlocked: false});
+achievements.push({name: "Low-Yield Bonds", desc: "Reach a rate of 1 unit/second.", unlocked: false});
+achievements.push({name: "Inflow", desc: "Reach a rate of 10 units/second.", unlocked: false});
+achievements.push({name: "Income", desc: "Reach a rate of 100 units/second.", unlocked: false});
+achievements.push({name: "Interest", desc: "Reach a rate of 1,000 units/second.", unlocked: false});
 
 // ==== Build HTML for Items, Upgrades, and Achievements
 
@@ -329,21 +338,126 @@ function buildItemHTML(item, index) {
 		itemHTML.addClass("disabled-item-" + item.phase);
 		itemHTML.append('<div class="owned" item="owned-' + index + '">0</div>');
 		itemHTML.append('<div class="item-info-container">');
-		
+
 		var infoContainer = itemHTML.find('.item-info-container');
 		infoContainer.append('<div class="item-name"></div>');
 		infoContainer.append('<div class="item-cost" id="cost-' + index + '"></div>');
 		infoContainer.append('<div class="item-rate" id="rate-' + index + '"></div>');
-		
+
 		infoContainer.find('.item-name').html(item.name);
 		$("#cost-" + index).html('Cost: ' + beautify(item.cost));
 		$("#rate-" + index).html('Rate: ' + beautify(item.rate));
 	}
 }
 
+function buildUpgradeHTML(upgrade, index) {
+	if (/* !upgrade.unlocked */ false) { return; }
+	var upgradesContainer = $("#upgrades-container");
+	upgradesContainer.append('<div class="upgrade" id="upgrade-' + index + '"></div>');
+
+	var upgradeHTML = $("#upgrade-" + index);
+	if (/* bank < upgrade.cost */ true) { upgradeHTML.addClass('disabled-upgrade'); }
+	upgradeHTML.append('<div class="upgrade-name"></div>');
+	upgradeHTML.append('<div class="upgrade-info"></div>');
+
+	upgradeHTML.find('.upgrade-name').html(upgrade.name);
+	upgradeHTML.find('.upgrade-info').html('Cost: ' + beautify(upgrade.cost, 3) + '<br><em>' + upgrade.desc + '</em>');
+}
+
+function buildAchievementHTML(achievement, index) {
+	var redXSymbol = '&#x274C;';
+	var checkmarkSymbol = '&#x2714;&#xFE0F;';
+
+	var achievementsContainer = $("#achievements-container");
+	achievementsContainer.append('<div class="achievement" id="achievement-' + index + '"></div>');
+
+	var achievementHTML = $("#achievement-" + index);
+	achievementHTML.append('<span class="achievement-unlocked"></span>')
+	achievementHTML.append('<span class="achievement-name"></span>');
+	achievementHTML.append('<span class="achievement-desc"></span>');
+
+	var unlocked = achievementHTML.find(".achievement-unlocked");
+	var name = achievementHTML.find(".achievement-name");
+	var desc = achievementHTML.find(".achievement-desc");
+
+	if (!achievement.unlocked) {
+		achievementHTML.addClass("achievement-disabled");
+		unlocked.html(redXSymbol);
+		unlocked.css('font-size', '0.75rem');
+		achievementHTML.css('padding', '0');
+		name.css('display', 'none');
+		desc.css('display', 'none');
+	} else {
+		unlocked.html(checkmarkSymbol);
+	}
+	name.html(achievement.name);
+	desc.html(achievement.desc);
+}
+
 for (var i in items) {
 	buildItemHTML(items[i], i);
 }
 
+for (var i in upgrades) {
+	buildUpgradeHTML(upgrades[i], i);
+}
+
+for (var i in achievements) {
+	buildAchievementHTML(achievements[i], i);
+}
+
 // $("#phase-2-items").hide();
 // $("#phase-3-items").hide();
+
+// ==== Core Variables and Functionality ====
+var bank = 0;
+var rate = 10;
+
+var baseClickPower = 1;
+var clickPercentOfRate = 0;
+var unitsPerClick = 1;
+
+// Statistics
+var totalUnitsEarned = 0;
+var totalUnitsSpent = 0;
+var totalClicks = 0;
+var totalUnitsMadeFromClicking = 0;
+var totalItemsOwned = 0;
+var totalUpgradesUnlocked = 0;
+var totalAchievementsUnlocked = 0;
+
+function update() {
+	// Updates the bank based on the rate.
+	// Assumes 30 fps.
+
+	var newEarnings = rate / 30;
+	bank += newEarnings;
+	totalUnitsEarned += newEarnings;
+
+	updateGameInfo();
+}
+
+function recalcUnitsPerClick() {
+	var clickPowerFromRate = rate * clickPercentOfRate;
+	return baseClickPower + clickPowerFromRate;
+}
+
+// On Rate Change function
+
+// ==== Event Handlers ====
+$("#bank").click(function() {
+	var newEarnings = unitsPerClick;
+	bank += newEarnings;
+	totalUnitsEarned += newEarnings;
+	totalClicks++;
+	totalUnitsMadeFromClicking += newEarnings;
+});
+
+// ==== UI Update ====
+function updateGameInfo() {
+	$("#bank").html(beautify(bank) + " units");
+	$("#rate").html(beautify(rate) + " units per second");
+}
+
+// Update Stats panel once per second
+setInterval(update, 33.333);

@@ -3,6 +3,7 @@
 * {
 	font-family: Calibri, sans-serif;
 	box-sizing: border-box;
+	user-select: none;
 }
 
 body {
@@ -15,11 +16,12 @@ body {
 header {
 	text-align: center;
 	background-color: #f5f791;
-	padding: 15px 0;
+	margin-top: 85px;
 }
 
 h1 {
 	margin: 0;
+	font-size: 1.5rem;
 }
 
 /* ==== Game Info ==== */
@@ -33,22 +35,27 @@ h1 {
 	display: flex;
 	background-color: #9cf791;
 	flex-direction: column;
+	height: 85px;
+	/* Stick this to the top so we can always see how we're doing monetarily */
+	position: fixed;
+	width: 100%;
+	top: 0;
 }
 
 #bank {
 	text-align: center;
-	font-size: 4rem;
+	font-size: 3rem;
 }
 
 #rate {
 	text-align: center;
-	font-size: 1.5rem;
+	font-size: 1.25rem;
 }
 
 /* ==== Progress Stars ==== */
 
 #stars {
-	display: none;
+	display: flex;
 	justify-content: space-around;
 	background-color: #f79191;
 }
@@ -78,10 +85,13 @@ h1 {
 
 #item-phases {
 	display: flex;
+	flex-direction: column;
 	width: 100%;
 }
 
-#item-header {
+#item-header,
+#upgrades-header,
+#achievements-header {
 	text-align: center;
 	padding: 10px 0;
 	margin: 0;
@@ -92,15 +102,10 @@ h1 {
 #phase-1-items {
 	margin-top: 0;
 	background-color: #91daf7;
-	width: 
 }
 
 #item-phases>div {
 	width: 100%;
-}
-
-.item:first-child {
-	border-top: 1px solid black;
 }
 
 .item {
@@ -123,4 +128,57 @@ h1 {
 
 .item-name {
 	font-weight: bold;
+}
+
+/* ==== Upgrades ==== */
+#upgrades {
+	display: flex;
+	flex-direction: column;
+}
+
+#upgrades-header {
+	background-color: #F791BC;
+}
+
+#upgrades-container {
+	display: flex;
+	flex-direction: column;
+}
+
+.upgrade {
+	padding: 10px 0 10px 10px;
+	border-top: 1px solid black;
+}
+
+.upgrade-name {
+	font-weight: bold;
+}
+
+/* ==== Achievements ==== */
+#achievements-header {
+	background-color: #B591F7;
+}
+
+.achievement {
+	padding: 10px 0 10px 10px;
+	border-top: 1px solid black;
+}
+
+.achievement-unlocked {
+	font-size: 1.5rem;
+}
+
+.achievement-name {
+	font-weight: bold;
+	padding: 0px 5px;
+}
+
+/* ==== Statistics ==== */
+#stats-link-container {
+	margin: 0 auto;
+}
+
+#stats-link {
+	text-decoration: none;
+	font-size: 2rem;
 }
