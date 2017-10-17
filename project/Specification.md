@@ -97,7 +97,44 @@ Upgrades are one-time purchases that improve some metric of the game (cost, inco
 		* Unlocked when the user has 20 HDMI Cables, 8 Whiteboard Walls, 1 SMART Board, and 8 Lighting Fixtures
 	    * Cost: 15,000 units
 	    * Effect: All income is doubled
-		
+* Phase II Upgrades:
+	* Optical Wireless Mouse:
+		* Unlocked when the user has made 25,000 units from clicking.
+		* Cost: 89,500 units
+		* Effect: Clicking gains 10% of the rate.
+	* Logitech Bluetooth Mouse:
+		* Unlocked when the user has made 400,000 units from clicking.
+		* Cost: 455,000 units
+		* Effect: Clicking gains 15% of the rate.
+	* Miniature Travel Mouse:
+		* Unlocked when the user has made 1,200,000 units from clicking.
+		* Cost: 9,550,000 units
+		* Effect: Clicking gains 25% of the rate.
+	* Enrollment Parking:
+		* Unlocked when the bank reaches 11,000 units.
+		* Cost: 28,800 units.
+		* Effect: Stand-Up Guides get +1% for every WIOA Paperwork you own. HDMI Cables get +200% for every Stand-Up Guide you own.
+	* Library Card:
+		* Unlocked when the bank reaches 100,000 units.
+		* Cost: 195,000 units.
+		* Effect: Front-end Class Projects are 30% cheaper.
+	* Concise Explanation:
+		* Unlocked when the bank reaches 225,000 units.
+		* Cost: 450,000 units.
+		* Effect: Orientation Presentations have their rate doubled.
+	* Video Communications Center:
+		* Unlocked when the bank reaches 450,000 units.
+		* Cost: 985,000 units.
+		* Effect: WIOA Paperworks gain +5% for every Stand-Up Guide. Lighting Decks gain +10% for every Front-end Class Project.
+	* Weekly Meeting:
+		* Unlocked when all Phase II mouse and item upgrades are purchased.
+		* Cost: 1,000,000 units.
+		* Effect: All income is tripled.
+	* Start the Courses:
+		* Unlocked when the user has bought 10 WIOA Paperworks, 1 Orientation Presentation, 4 Stand-Up Guides, and 1 Front-End Class Project.
+		* Cost: 10,000,000 units.
+		* Effect: All income is tripled. Phase II is completed.
+
 ## Achievements
 
 * Phase I Achievements
@@ -137,11 +174,22 @@ Upgrades are one-time purchases that improve some metric of the game (cost, inco
 	* Waiting List: Earn 10,000,000 units.
 	* Pre-Work: Earn 100,000,000 units.
 	* Orientation: Earn 1 billion units.
-	
-	[//]: # (Rate achiements)
-	
-	[//]: # (Item count achievements)
-	
-	[//]: # (All item count achievements)
-	
-	[//]: # (Phase II final upgrade purchase)
+	* Dividends: Reach a rate of 10,000 units/second.
+	* Capital Gains: Reach a rate of 100,000 units/second.
+	* Certificates of Deposit: Reach a rate of 100,000 units/second.
+	* Sign Here, Please: Own 1 WIOA Paperwork.
+	* Legal Procedures: Own 10 WIOA Paperworks.
+	* Read Carefully: Own 50 WIOA Paperworks.
+	* Welcome to the Library: Own 1 Orientation Presentation.
+	* The Conference Hall: Own 10 Orientation Presentation.
+	* Welcome to the Program: Own 50 Orientation Presentation.
+	* What are You Working On?: Own 1 Stand-Up Guide.
+	* Are You Stuck On Anything?: Own 10 Stand-Up Guides.
+	* What is Your Plan for the Week?: Own 50 Stand-Up Guides.
+	* The GitHub Repository: Own 1 Front-end Class Project.
+	* First Commit: Own 10 Front-end Class Projects.
+	* The Work for the Meeting: Own 50 Front-end Class Projects.
+	* The Student's Path: Own 1 of every Phase II building.
+	* Proper Direction: Own 10 of every Phase II building.
+	* Ready for the Course: Own 50 of every Phase II building.
+	* Everything's Ready: Buy "Start the Courses".
