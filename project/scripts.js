@@ -9,7 +9,7 @@ function beautify(number, places = 3) {
 	// Numbers less than 1 billion
 	var numberText;
 	if (number < 1e9) {
-		numberText = number.toLocaleString('en-US', {maximumFractionDigits: 0});
+		numberText = number.toLocaleString('en-US', {maximumFractionDigits: places});
 	} else if (number < 1e42) {
 		var powerOf10 = Math.log10(number);
 		var powerOf1000 = Math.floor(powerOf10 / 3);
@@ -42,7 +42,24 @@ var hdmiCables = {
 	rate: 0.1,
 	owned: 0,
 	totalRate: 0,
-	onBuy: function() {}
+	onBuy: function() {
+		if (fourKVideoSupport.bought) {
+			this.checkRate();
+			whiteboardWall.checkRate();
+			updateItemInfo(1 /* Whiteboard Walls */);
+		}
+	},
+	checkRate: function() {
+		if (!fourKVideoSupport.bought) {
+			this.rate =  0.1;
+		} else {
+			this.rate = 0.1 * (1 + (whiteboardWall.owned * 0.2));
+		}
+
+		if (dedicatedSpeakers.bought) { this.rate *= 2; }
+
+		this.totalRate = this.owned * this.rate;
+	}
 };
 items.push(hdmiCables);
 
@@ -53,7 +70,21 @@ var whiteboardWall = {
 	rate: 2,
 	owned: 0,
 	totalRate: 0,
-	onBuy: function() {}
+	onBuy: function() {
+		if (fourKVideoSupport.bought) {
+			this.checkRate();
+			hdmiCables.checkRate();
+			updateItemInfo(0 /* HDMI Cables */)
+		}
+	},
+	checkRate: function() {
+		if (!fourKVideoSupport.bought) {
+			this.rate =  2;
+		} else {
+			this.rate = 2 * (1 + (hdmiCables.owned * 0.01));
+		}
+		this.totalRate = this.owned * this.rate;
+	}
 };
 items.push(whiteboardWall);
 
@@ -173,13 +204,14 @@ var touchpad = {
 	desc: "Your clicking power is doubled.",
 	phase: 1,
 	checkUnlock: function() {
-		// User has made 25 units from clicking
+		return totalUnitsMadeFromClicking >= 25;
 	},
 	unlocked: false,
 	cost: 40,
 	bought: false,
 	onBuy: function() {
-		// Clicking power is doubled
+		baseClickPower *= 2;
+		recalcUnitsPerClick();
 	}
 };
 upgrades.push(touchpad);
@@ -189,13 +221,14 @@ var woodenCubeMouse = {
 	desc: "Clicking gains +10% of your rate.",
 	phase: 1,
 	checkUnlock: function() {
-		// User has made 175 units from clicking
+		return totalUnitsMadeFromClicking >= 175;
 	},
 	unlocked: false,
 	cost: 200,
 	bought: false,
 	onBuy: function() {
-		// Clicking gains +10% of the rate
+		clickPercentOfRate += 0.1;
+		recalcUnitsPerClick();
 	}
 };
 upgrades.push(woodenCubeMouse);
@@ -205,13 +238,14 @@ var microsoftIntellimouse = {
 	desc: "Clicking gains +20% of your rate.",
 	phase: 1,
 	checkUnlock: function() {
-		// User has made 500 units from clicking
+		return totalUnitsMadeFromClicking >= 500;
 	},
 	unlocked: false,
 	cost: 2950,
 	bought: false,
 	onBuy: function() {
-		// Clicking gains 20% of the rate
+		clickPercentOfRate += 0.2;
+		recalcUnitsPerClick();
 	}
 };
 upgrades.push(microsoftIntellimouse);
@@ -221,14 +255,19 @@ var fourKVideoSupport = {
 	desc: "HDMI Cables produce 20% more for each Whiteboard Wall you own. Whiteboard Walls produce 1% more for each HDMI cable you own.",
 	phase: 1,
 	checkUnlock: function() {
-		// Bank reaches 140
+		return bank >= 140;
 	},
 	unlocked: false,
 	cost: 180,
 	bought: false,
 	onBuy: function() {
-		// HDMI Cables rate +20% for each Whiteboard Wall
-		// Whiteboard Walls rate +1% for each HDMI Cable
+		hdmiCables.checkRate();
+		whiteboardWall.checkRate();
+
+		recalculateRate();
+
+		updateItemInfo(0);
+		updateItemInfo(1);
 	}
 };
 upgrades.push(fourKVideoSupport);
@@ -238,12 +277,14 @@ var rainbowMarkers = {
 	desc: "SMART Boards are 25% cheaper.",
 	phase: 1,
 	checkUnlock: function() {
-		// Bank reaches 750
+		return bank >= 750;
 	},
 	unlocked: false,
 	cost: 1250,
 	bought: false,
 	onBuy: function() {
+		smartBoard.cost *= 0.75;
+		updateItemInfo(2 /* SMART Boards */)
 	}
 };
 upgrades.push(rainbowMarkers);
@@ -253,12 +294,15 @@ var dedicatedSpeakers = {
 	desc: "HDMI Cables produce double the units.",
 	phase: 1,
 	checkUnlock: function() {
-		// Bank reaches 1750
+		return bank >= 1750;
 	},
 	unlocked: false,
 	cost: 3750,
 	bought: false,
 	onBuy: function() {
+		hdmiCables.checkRate();
+		recalculateRate();
+		updateItemInfo(0 /* HDMI Cables */);
 	}
 };
 upgrades.push(dedicatedSpeakers);
@@ -268,12 +312,14 @@ var gratedLightFixture = {
 	desc: "HDMI Cables are 25% cheaper.",
 	phase: 1,
 	checkUnlock: function() {
-		// Bank reaches 1875
+		return bank >= 1875;
 	},
 	unlocked: false,
 	cost: 2500,
 	bought: false,
 	onBuy: function() {
+		hdmiCables.cost *= 0.75;
+		updateItemInfo(0 /* HDMI Cables */);
 	}
 };
 upgrades.push(gratedLightFixture);
@@ -283,12 +329,14 @@ var mentorsAssistance = {
 	desc: "All income is doubled.",
 	phase: 1,
 	checkUnlock: function() {
-		// Bank reaches 2020
+		return bank >= 2020;
 	},
 	unlocked: false,
 	cost: 5100,
 	bought: false,
 	onBuy: function() {
+		multiplier *= 2;
+		for (var i in items) { updateItemInfo(i); }
 	}
 };
 upgrades.push(mentorsAssistance);
@@ -299,11 +347,23 @@ var completeClassroom = {
 	phase: 1,
 	checkUnlock: function() {
 		// 20 HDMI Cables, 8 Whiteboard Walls, 1 SMART Board, 8 Lighting Fixtures
+		return hdmiCables.owned >= 20 &&
+			   whiteboardWall.owned >= 8 &&
+			   smartBoard.owned >= 1 &&
+			   lightingDeck.owned >= 8;
 	},
 	unlocked: false,
 	cost: 15000,
 	bought: false,
 	onBuy: function() {
+		multiplier *= 2;
+		for (var i in items) { updateItemInfo(i); }
+
+		// Complete Phase 1!
+		phasesUnlocked[1] = true;
+		$("#stars").css('display', 'flex');
+		$("#phase-1-star").show();
+		$("#phase-1-special").css('display', 'flex');
 	}
 };
 upgrades.push(completeClassroom);
@@ -326,6 +386,42 @@ achievements.push({name: "Inflow", desc: "Reach a rate of 10 units/second.", unl
 achievements.push({name: "Income", desc: "Reach a rate of 100 units/second.", unlocked: false});
 achievements.push({name: "Interest", desc: "Reach a rate of 1,000 units/second.", unlocked: false});
 
+// ==== Phase 1 Specials ====
+var mentors = {
+	cost: 100,
+	priceMultiplier: 1.5,
+	owned: 0,
+	onBuy: function() {
+		bank -= this.cost;
+		this.cost *= this.priceMultiplier;
+		this.owned++;
+		for (var i in items) {
+			items[i].cost *= 0.99;
+			updateItemInfo(i);
+		}
+		$("#hired-mentors").text(this.owned);
+		$("#mentor-cost").text("Cost: " + beautify(this.cost, 0));
+	}
+}
+
+var students = {
+	cost: 100,
+	priceMultiplier: 2,
+	owned: 0,
+	onBuy: function() {
+		bank -= this.cost;
+		this.cost *= this.priceMultiplier;
+		this.owned++;
+		studentMultiplier += 0.01;
+		for (var i in items) {
+			updateItemInfo(i);
+		}
+		$("#enrolled-students").text(this.owned);
+		$("#student-cost").text("Cost: " + beautify(this.cost, 0));
+		recalculateRate();
+	}
+}
+
 // ==== Build HTML for Items, Upgrades, and Achievements
 
 function buildItemHTML(item, index) {
@@ -336,7 +432,7 @@ function buildItemHTML(item, index) {
 
 		var itemHTML = $("#item-" + index);
 		itemHTML.addClass("disabled-item-" + item.phase);
-		itemHTML.append('<div class="owned" item="owned-' + index + '">0</div>');
+		itemHTML.append('<div class="owned" id="owned-' + index + '">0</div>');
 		itemHTML.append('<div class="item-info-container">');
 
 		var infoContainer = itemHTML.find('.item-info-container');
@@ -365,7 +461,7 @@ function buildUpgradeHTML(upgrade, index) {
 }
 
 function buildAchievementHTML(achievement, index) {
-	var redXSymbol = '&#x274C;';
+	var lockImage = '<img class="achievement-lock" src="lock.png">';
 	var checkmarkSymbol = '&#x2714;&#xFE0F;';
 
 	var achievementsContainer = $("#achievements-container");
@@ -382,7 +478,7 @@ function buildAchievementHTML(achievement, index) {
 
 	if (!achievement.unlocked) {
 		achievementHTML.addClass("achievement-disabled");
-		unlocked.html(redXSymbol);
+		unlocked.html(lockImage);
 		unlocked.css('font-size', '0.75rem');
 		achievementHTML.css('padding', '0');
 		name.css('display', 'none');
@@ -411,11 +507,15 @@ for (var i in achievements) {
 
 // ==== Core Variables and Functionality ====
 var bank = 0;
-var rate = 10;
+var rate = 0;
+var multiplier = 1;
+var studentMultiplier = 1;
 
 var baseClickPower = 1;
 var clickPercentOfRate = 0;
 var unitsPerClick = 1;
+
+var itemPriceIncreaseFactor = 1.15;
 
 // Statistics
 var totalUnitsEarned = 0;
@@ -439,10 +539,59 @@ function update() {
 
 function recalcUnitsPerClick() {
 	var clickPowerFromRate = rate * clickPercentOfRate;
-	return baseClickPower + clickPowerFromRate;
+	unitsPerClick = baseClickPower + clickPowerFromRate;
 }
 
-// On Rate Change function
+function recalculateRate() {
+	rate = 0;
+	for (var i in items) {
+		rate += items[i].owned * items[i].rate;
+	}
+
+	rate *= studentMultiplier;
+	rate *= multiplier;
+
+	$("#rate").html(beautify(rate) + " units per second");
+}
+
+// ==== Update Locked and Unlocked Objects ====
+function checkItemsUnlocked() {
+	for (var i in items) {
+		checkItemUnlocked(i);
+	}
+}
+
+function checkItemUnlocked(index) {
+	var $itemDiv = $("#item-" + index);
+	var disabledClassName = "disabled-item-" + items[index].phase;
+	if (bank >= items[index].cost) {
+		$itemDiv.removeClass(disabledClassName);
+	} else {
+		$itemDiv.addClass(disabledClassName);
+	}
+}
+
+function checkUpgradesUnlocked() {
+	for (var i in upgrades) {
+		checkUpgradeUnlocked(i);
+	}
+}
+
+function checkUpgradeUnlocked(index) {
+	var $upgradeDiv = $("#upgrade-" + index);
+	var upgrade = upgrades[index];
+
+	if (!upgrade.unlocked && upgrade.checkUnlock()) {
+		upgrade.unlocked = true;
+		$upgradeDiv.show();
+	}
+
+	if (bank >= upgrade.cost) {
+		$upgradeDiv.removeClass("disabled-upgrade");
+	} else {
+		$upgradeDiv.addClass("disabled-upgrade");
+	}
+}
 
 // ==== Event Handlers ====
 $("#bank").click(function() {
@@ -453,11 +602,88 @@ $("#bank").click(function() {
 	totalUnitsMadeFromClicking += newEarnings;
 });
 
+$("#rate").click(function() {
+	// Speed cheat!
+	bank *= 1000;
+});
+
+function assignItemClickHandlers() {
+	for (var i in items) {
+		$("#item-" + i).click({index: i}, function(event) {
+			var item = items[event.data.index];
+			if (bank < item.cost) {
+				return;
+			} else {
+				bank -= item.cost;
+				item.cost *= itemPriceIncreaseFactor;
+				item.owned++;
+				item.totalRate = item.rate * item.owned;
+				item.onBuy();
+				recalculateRate();
+				updateItemInfo(event.data.index);
+				checkItemUnlocked(event.data.index);
+			}
+		});
+	}
+}
+
+function assignUpgradeClickHandlers() {
+	for (var i in upgrades) {
+		$("#upgrade-" + i).click({index: i}, function(event) {
+			var upgrade = upgrades[event.data.index];
+			if (bank < upgrade.cost) {
+				return;
+			} else {
+				bank -= upgrade.cost;
+				upgrade.bought = true;
+				upgrade.onBuy();
+				recalculateRate();
+				$("#upgrade-" + event.data.index).hide();
+			}
+		});
+	}
+}
+
+$("#mentor-container").click(function() {
+	if (bank >= mentors.cost) {
+		mentors.onBuy();
+	}
+});
+
+$("#student-container").click(function() {
+	if (bank >= students.cost) {
+		students.onBuy();
+	}
+});
+
 // ==== UI Update ====
 function updateGameInfo() {
-	$("#bank").html(beautify(bank) + " units");
-	$("#rate").html(beautify(rate) + " units per second");
+	$("#bank").html(beautify(bank, 0) + " units");
+}
+
+function updateItemInfo(index) {
+	var item = items[index];
+	$("#owned-" + index).text(item.owned);
+	$("#cost-" + index).text("Cost: " + beautify(item.cost, 0));
+	$("#rate-" + index).text("Rate: " + beautify(item.rate * multiplier * studentMultiplier));
 }
 
 // Update Stats panel once per second
 setInterval(update, 33.333);
+
+function oncePerSecondUpdate() {
+	checkItemsUnlocked();
+	checkUpgradesUnlocked();
+}
+
+setInterval(oncePerSecondUpdate, 1000);
+
+// ==== Loader ====
+function load() {
+	assignItemClickHandlers();
+	assignUpgradeClickHandlers();
+
+	$(".upgrade").hide();
+}
+
+load();

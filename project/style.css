@@ -55,7 +55,7 @@ h1 {
 /* ==== Progress Stars ==== */
 
 #stars {
-	display: flex;
+	display: none;
 	justify-content: space-around;
 	background-color: #f79191;
 }
@@ -66,10 +66,35 @@ h1 {
 	border-radius: 100%;
 }
 
+#phase-1-star,
+#phase-2-star,
+#phase-3-star {
+	display: none;
+}
+
 .star img {
 	display: block;
 	width: 50px;
 	height: 50px;
+}
+
+/* ==== Phase 1 Special ==== */
+#phase-1-special {
+	display: none;
+}
+
+#mentor-container {
+	width: 50%;
+	border: 1px solid black;
+	display: flex;
+}
+
+#student-container {
+	width: 50%;
+	border-top: 1px solid black;
+	border-right: 1px solid black;
+	border-bottom: 1px solid black;
+	display: flex;
 }
 
 /* ==== Item Panel ==== */
@@ -101,7 +126,15 @@ h1 {
 
 #phase-1-items {
 	margin-top: 0;
-	background-color: #91daf7;
+	background-color: hsl(197, 86%, 77%);
+}
+
+#phase-2-items {
+	background-color: hsl(120, 86%, 77%);
+}
+
+#phase-3-items {
+	background-color: hsl(61, 85%, 77%);
 }
 
 #item-phases>div {
@@ -116,7 +149,15 @@ h1 {
 }
 
 .disabled-item-1 {
-	background-color: #76b1c9;
+	background-color: hsl(197, 44%, 63%);
+}
+
+.disabled-item-2 {
+	background-color: hsl(120, 44%, 63%);
+}
+
+.disabled-item-3 {
+	background-color: hsl(61, 44%, 63%);
 }
 
 .owned {
@@ -145,6 +186,10 @@ h1 {
 	flex-direction: column;
 }
 
+.disabled-upgrade {
+	background-color: hsl(0, 0%, 75%);
+}
+
 .upgrade {
 	padding: 10px 0 10px 10px;
 	border-top: 1px solid black;
@@ -156,7 +201,11 @@ h1 {
 
 /* ==== Achievements ==== */
 #achievements-header {
-	background-color: #B591F7;
+	background-color: hsl(261, 86%, 77%);
+}
+
+#achievements {
+	margin-bottom: 1rem;
 }
 
 .achievement {
@@ -173,9 +222,24 @@ h1 {
 	padding: 0px 5px;
 }
 
+.achievement-disabled {
+	font-size: 1.5rem;
+	background-color: #aaaaaa;
+}
+
+.achievement-lock {
+	display: block;
+	width: 70px;
+	margin: 0 auto;
+	background-color: #333333;
+}
+
 /* ==== Statistics ==== */
 #stats-link-container {
-	margin: 0 auto;
+	margin: 0 auto 1rem auto;
+	padding: 1rem;
+	background-color: hsl(19, 91%, 69%);
+	border-radius: 50px;
 }
 
 #stats-link {
