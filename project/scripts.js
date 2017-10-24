@@ -26,6 +26,11 @@ function beautify(number, places = 3) {
 	return numberText;
 }
 
+function percent(number, places = 2) {
+	if (Number.isNaN(number)) { return "N/A"; }
+	return (number * 100).toLocaleString('en-US', {maximumFractionDigits: places}) + "%";
+}
+
 // ==== Define Items, Upgrades, and Achievements ====
 
 var phasesUnlocked = [true, false, false];
@@ -490,6 +495,7 @@ function buildAchievementHTML(achievement, index) {
 	desc.html(achievement.desc);
 }
 
+// Put these three for loops into load()
 for (var i in items) {
 	buildItemHTML(items[i], i);
 }
@@ -540,6 +546,7 @@ function update() {
 function recalcUnitsPerClick() {
 	var clickPowerFromRate = rate * clickPercentOfRate;
 	unitsPerClick = baseClickPower + clickPowerFromRate;
+	$("#units-per-click").text("Units Per Click: " + beautify(unitsPerClick, 0));
 }
 
 function recalculateRate() {
@@ -550,6 +557,8 @@ function recalculateRate() {
 
 	rate *= studentMultiplier;
 	rate *= multiplier;
+	
+	recalcUnitsPerClick();
 
 	$("#rate").html(beautify(rate) + " units per second");
 }
@@ -604,7 +613,9 @@ $("#bank").click(function() {
 
 $("#rate").click(function() {
 	// Speed cheat!
+	var oldBank = bank;
 	bank *= 1000;
+	totalUnitsEarned += (bank - oldBank);
 });
 
 function assignItemClickHandlers() {
@@ -615,8 +626,10 @@ function assignItemClickHandlers() {
 				return;
 			} else {
 				bank -= item.cost;
+				totalUnitsSpent += item.cost;
 				item.cost *= itemPriceIncreaseFactor;
 				item.owned++;
+				totalItemsOwned++;
 				item.totalRate = item.rate * item.owned;
 				item.onBuy();
 				recalculateRate();
@@ -635,7 +648,9 @@ function assignUpgradeClickHandlers() {
 				return;
 			} else {
 				bank -= upgrade.cost;
+				totalUnitsSpent += upgrade.cost;
 				upgrade.bought = true;
+				totalUpgradesUnlocked++;
 				upgrade.onBuy();
 				recalculateRate();
 				$("#upgrade-" + event.data.index).hide();
@@ -656,6 +671,20 @@ $("#student-container").click(function() {
 	}
 });
 
+$("#stats-link").click(function(event) {
+	event.preventDefault();
+	$("#stats-overlay").show();
+	$("#stats-page").show();
+	$("body").css('overflow', 'hidden');
+});
+
+$("#close-stats").click(function(event) {
+	event.preventDefault();
+	$("#stats-overlay").hide();
+	$("#stats-page").hide();
+	$("body").css('overflow', 'scroll');
+});
+
 // ==== UI Update ====
 function updateGameInfo() {
 	$("#bank").html(beautify(bank, 0) + " units");
@@ -668,12 +697,25 @@ function updateItemInfo(index) {
 	$("#rate-" + index).text("Rate: " + beautify(item.rate * multiplier * studentMultiplier));
 }
 
+var upgradeCount = upgrades.length;
+var achievementsCount = achievements.length;
+function updateStatsPanel() {
+	$("#total-units-earned").text("Total units earned: " + beautify(totalUnitsEarned, 0));
+	$("#total-units-spent").text("Total units spent: " + beautify(totalUnitsSpent, 0) + ' (' + percent(totalUnitsSpent / totalUnitsEarned) + ')');
+	$("#total-clicks").text("Total clicks: " + beautify(totalClicks, 0));
+	$("#total-units-made-from-clicking").text("Total units made from clicking: " + beautify(totalUnitsMadeFromClicking, 0));
+	$("#total-items-owned").text("Total items owned: " + beautify(totalItemsOwned, 0));
+	$("#total-upgrades-unlocked").text("Total upgrades unlocked: " + totalUpgradesUnlocked + "/" + upgradeCount + " (" + percent(totalUpgradesUnlocked / upgradeCount, 0) + ")");
+	$('#total-achievements-unlocked').text('Total achievements unlocked: ' + totalAchievementsUnlocked + '/' + achievementsCount + " (" + percent(totalAchievementsUnlocked / achievementsCount, 0) + ")");
+}
+
 // Update Stats panel once per second
 setInterval(update, 33.333);
 
 function oncePerSecondUpdate() {
 	checkItemsUnlocked();
 	checkUpgradesUnlocked();
+	updateStatsPanel();
 }
 
 setInterval(oncePerSecondUpdate, 1000);
