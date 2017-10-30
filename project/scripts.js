@@ -53,12 +53,20 @@ var hdmiCables = {
 			whiteboardWall.checkRate();
 			updateItemInfo(1 /* Whiteboard Walls */);
 		}
+
+		if (this.owned >= 1) { unlockAchievement(14); }
+		if (this.owned >= 10) { unlockAchievement(15); }
+		if (this.owned >= 50) { unlockAchievement(16); }
 	},
 	checkRate: function() {
 		if (!fourKVideoSupport.bought) {
 			this.rate =  0.1;
 		} else {
 			this.rate = 0.1 * (1 + (whiteboardWall.owned * 0.2));
+		}
+
+		if (enrollmentParking.bought) {
+			this.rate *= (1 + (standUpGuide.owned * 2));
 		}
 
 		if (dedicatedSpeakers.bought) { this.rate *= 2; }
@@ -81,6 +89,10 @@ var whiteboardWall = {
 			hdmiCables.checkRate();
 			updateItemInfo(0 /* HDMI Cables */)
 		}
+
+		if (this.owned >= 1) { unlockAchievement(17); }
+		if (this.owned >= 10) { unlockAchievement(18); }
+		if (this.owned >= 50) { unlockAchievement(19); }
 	},
 	checkRate: function() {
 		if (!fourKVideoSupport.bought) {
@@ -100,7 +112,11 @@ var smartBoard = {
 	rate: 8,
 	owned: 0,
 	totalRate: 0,
-	onBuy: function() {}
+	onBuy: function() {
+		if (this.owned >= 1) { unlockAchievement(20); }
+		if (this.owned >= 10) { unlockAchievement(21); }
+		if (this.owned >= 50) { unlockAchievement(22); }
+	}
 };
 items.push(smartBoard);
 
@@ -111,7 +127,20 @@ var lightingDeck = {
 	rate: 17.5,
 	owned: 0,
 	totalRate: 0,
-	onBuy: function() {}
+	onBuy: function() {
+		if (this.owned >= 1) { unlockAchievement(23); }
+		if (this.owned >= 10) { unlockAchievement(24); }
+		if (this.owned >= 50) { unlockAchievement(25); }
+	},
+	checkRate: function() {
+		if (!videoCommunicationsCenter.bought) {
+			this.rate = 17.5;
+		} else {
+			this.rate = 17.5 * (1 + (frontEndClassProject.owned * 0.1));
+		}
+
+		this.totalRate = this.owned * this.rate;
+	}
 };
 items.push(lightingDeck);
 
@@ -122,7 +151,10 @@ var wioaPaperwork = {
 	rate: 35,
 	owned: 0,
 	totalRate: 0,
-	onBuy: function() {}
+	onBuy: function() {
+		standUpGuide.checkRate();
+		updateItemInfo(6 /* Stand-up Guide */)
+	}
 };
 items.push(wioaPaperwork);
 
@@ -133,7 +165,12 @@ var orientationPresentation = {
 	rate: 75,
 	owned: 0,
 	totalRate: 0,
-	onBuy: function() {}
+	onBuy: function() {},
+	checkRate: function() {
+		if (conciseExplanation.bought) { this.rate *= 2; }
+
+		this.totalRate = this.owned * this.rate;
+	}
 };
 items.push(orientationPresentation);
 
@@ -144,7 +181,25 @@ var standUpGuide = {
 	rate: 140,
 	owned: 0,
 	totalRate: 0,
-	onBuy: function() {}
+	onBuy: function() {
+		if (enrollmentParking.bought) {
+			hdmiCables.checkRate();
+			updateItemInfo(0 /* HDMI Cables */)
+		}
+	},
+	checkRate: function() {
+		if (!enrollmentParking.bought) {
+			this.rate = 140;
+		} else {
+			this.rate = 140 * (1 + (wioaPaperwork.owned * 0.01));
+		}
+
+		if (videoCommunicationsCenter.bought) {
+			rate *= (1 + (wioaPaperwork.owned * 0.05));
+		}
+
+		this.totalRate = this.owned * this.rate;
+	}
 };
 items.push(standUpGuide);
 
@@ -155,7 +210,10 @@ var frontEndClassProject = {
 	rate: 325,
 	owned: 0,
 	totalRate: 0,
-	onBuy: function() {}
+	onBuy: function() {
+		lightingDeck.checkRate();
+		updateItemInfo(3 /* Lighting Deck */);
+	}
 };
 items.push(frontEndClassProject);
 
@@ -373,6 +431,173 @@ var completeClassroom = {
 };
 upgrades.push(completeClassroom);
 
+var opticalWirelessMouse = {
+	name: 'Optical Wireless Mouse',
+	desc: 'Clicking gains another +10% of your rate.',
+	phase: 2,
+	checkUnlock: function() {
+		return totalUnitsMadeFromClicking >= 25000;
+	},
+	unlocked: false,
+	cost: 89500,
+	bought: false,
+	onBuy: function() {
+		clickPercentOfRate += 0.1;
+		recalcUnitsPerClick();
+	}
+};
+upgrades.push(opticalWirelessMouse);
+
+var logitechBluetoothMouse = {
+	name: 'Logitech Bluetooth Mouse',
+	desc: 'Clicking gains another +15% of your rate.',
+	phase: 2,
+	checkUnlock: function() {
+		return totalUnitsMadeFromClicking >= 400000;
+	},
+	unlocked: false,
+	cost: 455000,
+	bought: false,
+	onBuy: function() {
+		clickPercentOfRate += 0.15;
+		recalcUnitsPerClick();
+	}
+};
+upgrades.push(logitechBluetoothMouse);
+
+var miniatureTravelMouse = {
+	name: 'Miniature Travel Mouse',
+	desc: 'Clicking gains another +25% of your rate.',
+	phase: 2,
+	checkUnlock: function() {
+		return totalUnitsMadeFromClicking >= 1.2e6;
+	},
+	unlocked: false,
+	cost: 9.55e6,
+	bought: false,
+	onBuy: function() {
+		clickPercentOfRate += 0.25;
+		recalcUnitsPerClick();
+	}
+};
+upgrades.push(miniatureTravelMouse);
+
+var enrollmentParking = {
+	name: 'Enrollment Parking',
+	desc: 'Stand-Up Guides get +1% for every WIOA Paperwork you own. HDMI Cables gain +200% for every Stand-Up Guide you own.',
+	phase: 2,
+	checkUnlock: function() {
+		return bank >= 11000;
+	},
+	unlocked: false,
+	cost: 28800,
+	bought: false,
+	onBuy: function() {
+		hdmiCables.checkRate();
+		updateItemInfo(0 /* HDMI Cables */);
+
+		standUpGuide.checkRate();
+		updateItemInfo(6 /* Stand-Up Guides */);
+	}
+};
+upgrades.push(enrollmentParking);
+
+var libraryCard = {
+	name: 'Library Card',
+	desc: 'Front-End Class Projects are 30% cheaper.',
+	phase: 2,
+	checkUnlock: function() {
+		return bank >= 100000;
+	},
+	unlocked: false,
+	cost: 195000,
+	bought: false,
+	onBuy: function() {
+		frontEndClassProject.cost *= 0.7;
+		updateItemInfo(7 /* Front-End Class Projects */);
+	}
+};
+upgrades.push(libraryCard);
+
+var conciseExplanation = {
+	name: 'Concise Explanation',
+	desc: 'Orientation Presentations produce double the units.',
+	phase: 2,
+	checkUnlock: function() {
+		return bank >= 225000;
+	},
+	unlocked: false,
+	cost: 195000,
+	bought: false,
+	onBuy: function() {
+		orientationPresentation.checkRate();
+		recalculateRate();
+		updateItemInfo(5 /* Orientation Presentations */);
+	}
+};
+upgrades.push(conciseExplanation);
+
+var videoCommunicationsCenter = {
+	name: 'Video Communications Center',
+	desc: 'WIOA Paperworks gain +5% for every Stand-Up Guide. Lighting Decks gain +10% for every Front-End Class Project.',
+	phase: 2,
+	checkUnlock: function() {
+		return bank >= 450000;
+	},
+	unlocked: false,
+	cost: 985000,
+	bought: false,
+	onBuy: function() {
+		/* IMPLEMENT */
+	}
+};
+upgrades.push(videoCommunicationsCenter);
+
+var weeklyMeeting = {
+	name: 'Weekly Meeting',
+	desc: 'All income is tripled.',
+	phase: 2,
+	checkUnlock: function() {
+		for (var i = 0; i < upgrades.length; i++) {
+			if (upgrades[i].phase === 2 && upgrades[i].name !== 'Start the Courses!' && upgrades[i].name !== 'Weekly Meeting') {
+				if (!upgrades[i].bought) { return false; }
+			}
+		}
+		return true;
+	},
+	unlocked: false,
+	cost: 1e6,
+	bought: false,
+	onBuy: function() {
+		multiplier *= 3;
+	}
+};
+upgrades.push(weeklyMeeting);
+
+var startTheCourses = {
+	name: 'Start the Courses!',
+	desc: 'All income is tripled!',
+	phase: 2,
+	checkUnlock: function() {
+		return (wioaPaperwork.owned >= 10) &&
+			   (orientationPresentation.owned >= 1) &&
+			   (standUpGuide.owned >= 4) &&
+			   (frontEndClassProject.owned >= 1);
+	},
+	unlocked: false,
+	cost: 10e6,
+	onBuy: function() {
+		multiplier *= 3;
+
+		/* Phase II is completed! */
+		phasesUnlocked[2] = true;
+		$("#stars").css('display', 'flex');
+		$("#phase-2-star").show();
+		// $("#phase-1-special").css('display', 'flex');
+	}
+};
+upgrades.push(startTheCourses);
+
 upgrades.sort(function(a, b) { return b - a; });
 
 // ==== Achievements ====
@@ -390,6 +615,22 @@ achievements.push({name: "Low-Yield Bonds", desc: "Reach a rate of 1 unit/second
 achievements.push({name: "Inflow", desc: "Reach a rate of 10 units/second.", unlocked: false});
 achievements.push({name: "Income", desc: "Reach a rate of 100 units/second.", unlocked: false});
 achievements.push({name: "Interest", desc: "Reach a rate of 1,000 units/second.", unlocked: false});
+achievements.push({name: 'Unified Media Transport', desc: 'Buy 1 HDMI Cable.', unlocked: false});
+achievements.push({name: '19 Pins', desc: 'Buy 10 HDMI Cables.', unlocked: false});
+achievements.push({name: '2160p60', desc: 'Buy 50 HDMI Cables.', unlocked: false});
+achievements.push({name: 'Dry-Erase', desc: 'Buy 1 Whiteboard Wall.', unlocked: false});
+achievements.push({name: 'Glossy Acrylic', desc: 'Buy 10 Whiteboard Walls.', unlocked: false});
+achievements.push({name: 'Heit\'s Legacy', desc: 'Buy 50 Whiteboard Walls.', unlocked: false});
+achievements.push({name: 'Interactivity', desc: 'Buy 1 SMART Board.', unlocked: false});
+achievements.push({name: 'Wireless Learning', desc: 'Buy 10 SMART Boards.', unlocked: false});
+achievements.push({name: 'Integrated Tech', desc: 'Buy 50 SMART Boards.', unlocked: false});
+achievements.push({name: 'Candela', desc: 'Buy 1 Lighting Deck.', unlocked: false});
+achievements.push({name: 'Lux', desc: 'Buy 10 Lighting Decks.', unlocked: false});
+achievements.push({name: 'Lumen', desc: 'Buy 50 Lighting Decks.', unlocked: false});
+achievements.push({name: 'Shop Around', desc: 'Buy 1 of every Phase I item.', unlocked: false});
+achievements.push({name: 'Quality Brand', desc: 'Buy 10 of every Phase I item.', unlocked: false});
+achievements.push({name: 'Preferred Shopper', desc: 'Buy 50 of every Phase I item.', unlocked: false});
+achievements.push({name: 'The Start of It All', desc: 'Buy "Complete Classroom".', unlocked: false});
 
 // ==== Phase 1 Specials ====
 var mentors = {
@@ -557,7 +798,7 @@ function recalculateRate() {
 
 	rate *= studentMultiplier;
 	rate *= multiplier;
-	
+
 	recalcUnitsPerClick();
 
 	$("#rate").html(beautify(rate) + " units per second");
@@ -635,6 +876,7 @@ function assignItemClickHandlers() {
 				recalculateRate();
 				updateItemInfo(event.data.index);
 				checkItemUnlocked(event.data.index);
+				checkItemsOwnedAchievements();
 			}
 		});
 	}
@@ -697,6 +939,20 @@ function updateItemInfo(index) {
 	$("#rate-" + index).text("Rate: " + beautify(item.rate * multiplier * studentMultiplier));
 }
 
+function unlockAchievement(index) {
+	if (!achievements[index].unlocked) {
+		var achievement = achievements[index];
+		var $achievementDiv = $('#achievement-' + index);
+
+		$achievementDiv.removeClass('achievement-disabled');
+		$achievementDiv.find(".achievement-lock").hide();
+		$achievementDiv.find(".achievement-name").show();
+		$achievementDiv.find(".achievement-desc").show();
+
+		achievement.unlocked = true;
+	}
+}
+
 var upgradeCount = upgrades.length;
 var achievementsCount = achievements.length;
 function updateStatsPanel() {
@@ -709,6 +965,29 @@ function updateStatsPanel() {
 	$('#total-achievements-unlocked').text('Total achievements unlocked: ' + totalAchievementsUnlocked + '/' + achievementsCount + " (" + percent(totalAchievementsUnlocked / achievementsCount, 0) + ")");
 }
 
+function checkAchievements() {
+	if (totalUnitsEarned >= 1) { unlockAchievement(0); }
+	if (totalUnitsEarned >= 10) { unlockAchievement(1); }
+	if (totalUnitsEarned >= 100) { unlockAchievement(2); }
+	if (totalUnitsEarned >= 1000) { unlockAchievement(3); }
+	if (totalUnitsEarned >= 10000) { unlockAchievement(4); }
+
+	if (totalUnitsMadeFromClicking >= 1) { unlockAchievement(5); }
+	if (totalUnitsMadeFromClicking >= 10) { unlockAchievement(6); }
+	if (totalUnitsMadeFromClicking >= 100) { unlockAchievement(7); }
+	if (totalUnitsMadeFromClicking >= 100) { unlockAchievement(8); }
+
+	if (rate >= 0.1) { unlockAchievement(9); }
+	if (rate >= 1) { unlockAchievement(10); }
+	if (rate >= 10) { unlockAchievement(11); }
+	if (rate >= 100) { unlockAchievement(12); }
+	if (rate >= 1000) { unlockAchievement(13); }
+}
+
+function checkItemsOwnedAchievements(phase) {
+	/* Unlock achievements when the user owns a certain number of all items in the same phase */
+}
+
 // Update Stats panel once per second
 setInterval(update, 33.333);
 
@@ -716,6 +995,7 @@ function oncePerSecondUpdate() {
 	checkItemsUnlocked();
 	checkUpgradesUnlocked();
 	updateStatsPanel();
+	checkAchievements();
 }
 
 setInterval(oncePerSecondUpdate, 1000);
