@@ -261,6 +261,12 @@ var finalProject = {
 };
 items.push(finalProject);
 
+var itemsByPhase = [[], [], []];
+for (var i in items) {
+	var phase = Math.floor(i / 4);
+	itemsByPhase[phase].push(items[i]);
+}
+
 /* ==== Upgrades ==== */
 var touchpad = {
 	name: "Touchpad",
@@ -599,6 +605,11 @@ var startTheCourses = {
 upgrades.push(startTheCourses);
 
 upgrades.sort(function(a, b) { return b - a; });
+
+var upgradesByPhase = [[], [], []];
+for (var i in upgrades) {
+	upgradesByPhase[upgrades[i].phase - 1].push(upgrades[i]);
+}
 
 // ==== Achievements ====
 achievements.push({name: "A Thought", desc: "Earn 1 unit.", unlocked: false});
@@ -950,6 +961,8 @@ function unlockAchievement(index) {
 		$achievementDiv.find(".achievement-desc").show();
 
 		achievement.unlocked = true;
+		
+		totalAchievementsUnlocked++;
 	}
 }
 
@@ -975,7 +988,7 @@ function checkAchievements() {
 	if (totalUnitsMadeFromClicking >= 1) { unlockAchievement(5); }
 	if (totalUnitsMadeFromClicking >= 10) { unlockAchievement(6); }
 	if (totalUnitsMadeFromClicking >= 100) { unlockAchievement(7); }
-	if (totalUnitsMadeFromClicking >= 100) { unlockAchievement(8); }
+	if (totalUnitsMadeFromClicking >= 1000) { unlockAchievement(8); }
 
 	if (rate >= 0.1) { unlockAchievement(9); }
 	if (rate >= 1) { unlockAchievement(10); }
