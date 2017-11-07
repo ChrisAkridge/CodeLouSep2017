@@ -433,6 +433,7 @@ var completeClassroom = {
 		$("#stars").css('display', 'flex');
 		$("#phase-1-star").show();
 		$("#phase-1-special").css('display', 'flex');
+		unlockAchievement(29);
 	}
 };
 upgrades.push(completeClassroom);
@@ -658,6 +659,7 @@ var mentors = {
 		}
 		$("#hired-mentors").text(this.owned);
 		$("#mentor-cost").text("Cost: " + beautify(this.cost, 0));
+		checkSpecialsUnlocked();
 	}
 }
 
@@ -676,6 +678,7 @@ var students = {
 		$("#enrolled-students").text(this.owned);
 		$("#student-cost").text("Cost: " + beautify(this.cost, 0));
 		recalculateRate();
+		checkSpecialsUnlocked();
 	}
 }
 
@@ -775,6 +778,10 @@ var unitsPerClick = 1;
 
 var itemPriceIncreaseFactor = 1.15;
 
+// On mobile browsers, having a bank above 1 billion or so can cause the text to overflow its container.
+// So we reduce the size of the bank text when it reaches this level.
+var smallBankText = false;
+
 // Statistics
 var totalUnitsEarned = 0;
 var totalUnitsSpent = 0;
@@ -842,7 +849,7 @@ function checkUpgradeUnlocked(index) {
 	var $upgradeDiv = $("#upgrade-" + index);
 	var upgrade = upgrades[index];
 
-	if (!upgrade.unlocked && upgrade.checkUnlock()) {
+	if (phasesUnlocked[upgrade.phase - 1] && (!upgrade.unlocked && upgrade.checkUnlock())) {
 		upgrade.unlocked = true;
 		$upgradeDiv.show();
 	}
@@ -851,6 +858,20 @@ function checkUpgradeUnlocked(index) {
 		$upgradeDiv.removeClass("disabled-upgrade");
 	} else {
 		$upgradeDiv.addClass("disabled-upgrade");
+	}
+}
+
+function checkSpecialsUnlocked() {
+	if (bank < mentors.cost) {
+		$("#mentor-container").addClass('phase-1-special-disabled');
+	} else {
+		$("#mentor-container").removeClass('phase-1-special-disabled');
+	}
+
+	if (bank < students.cost) {
+		$("#student-container").addClass('phase-1-special-disabled');
+	} else {
+		$('#student-container').removeClass('phase-1-special-disabled');
 	}
 }
 
@@ -941,6 +962,25 @@ $("#close-stats").click(function(event) {
 // ==== UI Update ====
 function updateGameInfo() {
 	$("#bank").html(beautify(bank, 0) + " units");
+
+	if (bank >= 1e9 && !smallBankText) {
+		// Here we reduce the size of the text if the bank reaches 1 billion
+		// AND the window is less than 960px wide (the mobile breakpoint).
+
+		// Since this code is ran 30 times per second, we do a clever trick to ensure
+		// we don't do too much work here if necessary. We will only reduce the font size
+		// if the bank is over 1 billion and we haven't already reduced the font size (which
+		// is tracked by the smallBankText variable). Checking a number and a boolean is cheap,
+		// and it saves us from having to do a jQuery select 30 times a second.
+
+		if ($(window).width() < 1e9 /* set the width very high just so we can see if it works */) {
+			$('#bank').css('font-size', '2rem');
+			smallBankText = true;
+		}
+	} else if (bank < 1e9 && smallBankText) {
+		$('#bank').css('font-size', '3rem');
+		smallBankText = false;
+	}
 }
 
 function updateItemInfo(index) {
@@ -961,7 +1001,7 @@ function unlockAchievement(index) {
 		$achievementDiv.find(".achievement-desc").show();
 
 		achievement.unlocked = true;
-		
+
 		totalAchievementsUnlocked++;
 	}
 }
@@ -998,7 +1038,22 @@ function checkAchievements() {
 }
 
 function checkItemsOwnedAchievements(phase) {
-	/* Unlock achievements when the user owns a certain number of all items in the same phase */
+	/* Unlock achievements when the user owns a 1, 10, or 50 of all items in the same phase */
+	var phaseItems = itemsByPhase[phase - 1];
+	var achievementIndices = [[26, 27, 28],
+		[],
+		[]];
+
+	var lowestOwned = Infinity;
+	for (var i in phaseItems) {
+		if (phaseItems[i].owned < lowestOwned) {
+			lowestOwned = phaseItems[i].owned;
+		}
+	}
+
+	if (lowestOwned >= 1) { unlockAchievement(achievementIndices[phase - 1][0]); }
+	if (lowestOwned >= 10) { unlockAchievement(achievementIndices[phase - 1][1]); }
+	if (lowestOwned >= 50) { unlockAchievement(achievementIndices[phase - 1][2]); }
 }
 
 // Update Stats panel once per second
@@ -1007,8 +1062,10 @@ setInterval(update, 33.333);
 function oncePerSecondUpdate() {
 	checkItemsUnlocked();
 	checkUpgradesUnlocked();
+	checkSpecialsUnlocked();
 	updateStatsPanel();
 	checkAchievements();
+	checkItemsOwnedAchievements(1);
 }
 
 setInterval(oncePerSecondUpdate, 1000);

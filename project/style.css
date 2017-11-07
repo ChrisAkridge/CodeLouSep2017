@@ -97,6 +97,10 @@ h1 {
 	display: flex;
 }
 
+.phase-1-special-disabled {
+	background-color: #8B8B8B;
+}
+
 /* ==== Item Panel ==== */
 #buyable-container {
 	display: flex;
