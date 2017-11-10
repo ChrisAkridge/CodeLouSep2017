@@ -253,7 +253,7 @@ items.push(techEvents);
 var finalProject = {
 	name: "Final Project",
 	phase: 3,
-	cost: 489.275e5,
+	cost: 489.275e6,
 	rate: 64250,
 	owned: 0,
 	totalRate: 0,
@@ -876,13 +876,31 @@ function checkSpecialsUnlocked() {
 }
 
 // ==== Event Handlers ====
-$("#bank").click(function() {
+
+// At the start of the game, there's some instruction text. We want to remove
+// it when the user has clicked to make 10 units, but we don't want to keep
+// calling an event handler that checks whether we've made 10 units yet every
+// time the user clicks the bank. So, here, I add two event handlers to the
+// bank's "click" event, the latter of which is coded to remove itself once the
+// "made 10 units by clicking" condition has been met. This way, we don't keep
+// checking to hide the instructions all the time.
+function onBankClick() {
 	var newEarnings = unitsPerClick;
 	bank += newEarnings;
 	totalUnitsEarned += newEarnings;
 	totalClicks++;
 	totalUnitsMadeFromClicking += newEarnings;
-});
+}
+
+function checkDismissInstructions() {
+	if (totalUnitsMadeFromClicking >= 10) {
+		$("#instructions").hide();
+		$("#bank").off('click', checkDismissInstructions);
+	}
+}
+
+$("#bank").on('click', onBankClick);
+$("#bank").on('click', checkDismissInstructions);
 
 $("#rate").click(function() {
 	// Speed cheat!

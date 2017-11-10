@@ -15,7 +15,7 @@ body {
 
 header {
 	text-align: center;
-	background-color: #f5f791;
+	background-color: hsl(61, 86%, 77%);
 	margin-top: 85px;
 }
 
@@ -50,6 +50,17 @@ h1 {
 #rate {
 	text-align: center;
 	font-size: 1.25rem;
+}
+
+#instructions {
+	width: 100%;
+	font-size: 2rem;
+	background-color: hsl(129, 86%, 77%);
+}
+
+#instruction-text {
+	display: block;
+	text-align: center;
 }
 
 /* ==== Progress Stars ==== */
@@ -124,7 +135,7 @@ h1 {
 	text-align: center;
 	padding: 10px 0;
 	margin: 0;
-	background-color: #91daf7;
+	background-color: hsl(197, 86%, 77%);
 	font-size: 2rem;
 }
 
