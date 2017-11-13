@@ -293,3 +293,14 @@ h1 {
 	margin-bottom: 0;
 }
 
+/* ==== Media Queries ==== */
+@media screen and (min-width: 800px) {
+	#buyable-container {
+		flex-direction: row;
+		justify-content: space-between;
+	}
+
+	#buyable-container>div {
+		flex: 1;
+	}
+}
